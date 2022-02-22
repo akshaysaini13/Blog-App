@@ -9,7 +9,7 @@
 <div class="container">
     <div class="py-3 text-center">
         <h2>Coding articles by iCoder</h2>
-        <p class="lead"> Below is our expamples of our Blog!</p>
+        <p class="lead"> Below you can find expamples of our Blog!</p>
     </div>
 
     {% for post in allPosts %}
@@ -20,7 +20,7 @@
             <h3 class="mb-0">{{post.title}}</h3>
             <div class="mb-1 text-muted">{{post.timestamp}}</div>
             <p class="card-text mb-auto">{{post.content| truncatechars:200 }}</p>
-            <a href="/blog/{{post.slug}}" class="stretched-link">Continue reading</a>
+            <a href="/blog/{{post.sno}}" class="stretched-link">Continue reading</a>
         </div>
 
     </div>

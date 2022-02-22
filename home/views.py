@@ -46,59 +46,60 @@ def contact(request):
 #     params = {'allPosts': allPosts, 'query': mysearch}
 #     return render(request, 'home/search.html', params)
 
-# # Authentication APIs
-# def handlesignup(request):
-#     #Creating new user
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         firstname = request.POST.get('firstname')
-#         lastname = request.POST.get('lastname')
-#         email = request.POST.get('email')
-#         password1 = request.POST.get('password1')
-#         password2 = request.POST.get('password2')
+# Authentication APIs
+def handlesignup(request):
+    #Creating new user
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        firstname = request.POST.get('firstname')
+        lastname = request.POST.get('lastname')
+        email = request.POST.get('email')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
 
-#         if len(username) > 10: # length should be greater than 10
-#             messages.error(request, "Username must be under 10 characters")
-#             return redirect('/')
+        if len(username) > 10: # length should be greater than 10
+            messages.error(request, "Username must be under 10 characters")
+            return redirect('/')
 
-#         if not username.isalnum(): # should be alphanumeric
-#             messages.error(request, "Username can only contain letters and numbers")
-#             return redirect('/')
+        if not username.isalnum(): # should be alphanumeric
+            messages.error(request, "Username can only contain letters and numbers")
+            return redirect('/')
 
-#         if password1 != password2:
-#             messages.error(request, "Password does not match. Try again")
-#             return redirect('/')
+        if password1 != password2:
+            messages.error(request, "Password does not match. Try again")
+            return redirect('/')
 
-#         else: 
-#             user = User.objects.create_user(username, email, password1)
-#             user.first_name = firstname
-#             user.last_name = lastname
-#             user.save()
-#             messages.success(request, "Account has been successfully created!")
-#             return redirect('/')
-#     else:
-#         return HttpResponse('404 - Page not found')   
+        else: 
+            user = User.objects.create_user(username, email, password1)
+            user.first_name = firstname
+            user.last_name = lastname
+            user.save()
+            messages.success(request, "Account has been successfully created!")
+            return redirect('/')
+    else:
+        return HttpResponse('404 - Page not found')   
     
 
-# def handlelogin(request):
-#     if request.method == 'POST':
-#         loginusername = request.POST.get('loginusername')
-#         loginpassword = request.POST.get('loginpassword')
+def handlelogin(request):
+    if request.method == 'POST':
+        loginusername = request.POST.get('loginusername')
+        loginpassword = request.POST.get('loginpassword')
 
-#         user = authenticate(username=loginusername, password=loginpassword)
+        user = authenticate(username=loginusername, password=loginpassword)
+        # print(user)
         
-#         if user is not None:
-#             login(request, user)
-#             messages.success(request," Successfully logged in!")
-#             return redirect("/")
+        if user is not None:
+            login(request, user)
+            messages.success(request," Successfully logged in!")
+            return redirect("/")
             
-#         else:
-#             messages.error(request, "Invalid credentials. Please try again!")
-#             return redirect("/")
-#     return HttpResponse('404 - Page not found') 
+        else:
+            messages.error(request, "Invalid credentials. Please try again!")
+            return redirect("/")
+    return HttpResponse('404 - Page not found') 
 
 
-# def handlelogout(request):
-#     logout(request)
-#     messages.success(request, "Successfully Logged Out")
-#     return redirect('/')
+def handlelogout(request):
+    logout(request)
+    messages.success(request, "Successfully Logged Out")
+    return redirect('/')
