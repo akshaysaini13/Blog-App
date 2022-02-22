@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %} Blog post {% endblock title %}
+
+{% block body %}
+
+<div class="container">
+
+    <div class="blog-post">
+        <h2 class="blog-post-title">{{post.title}}</h2>
+        <p class="blog-post-meta">{{post.timestamp}} by <a href="#">{{post.author}}</a></p>
+
+        <p>{{post.content}}</p>
+        <hr>
+
+    </div>
+</div>
+
+<!--Comments container-->
+
+<div class="container">
+    <h2>Comments({{comment.count}}):</h2>
+
+    {% if user.is_authenticated %}
+
+    <form action="/blog/postcomment" method="post">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Post Comment</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="comment" placeholder="Enter comment here..">
+        </div>
+
+        <input type="hidden" name="postsno" value={{post.sno}}>
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+    
+    {% else %}
+    <h4>Please login to post a comment!</h4>    
+    {% endif %}
+
+    {% for comment in comment %}
+    <div class="row my-3">
+        <div class="col-md-1"><img src="{% static 'img/user.png' %}" class="rounded mx-auto d-block w-100 p-2" alt="#" ></div>
+        <div class="col-md-11"><b>{{comment.user}}:</b><br>
+            <p>{{comment.timestamp}} ({{comment.timestamp|naturaltime}}) </p>
+         <div>{{comment.comment}}</div>
+        </div>
+    </div>
+   
+    {% endfor %}
+
+</div>
+{% endblock body %}
