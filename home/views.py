@@ -1,8 +1,9 @@
+from turtle import title
 from django.db.models import query
 from django.http.response import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
-# from blog.models import Post
+from blog.models import BlogPost
 from home.models import Contact
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -32,19 +33,19 @@ def contact(request):
     return render(request, 'home/contact.html')
 
 
-# def search(request):
-#     mysearch = request.GET['search']
-#     if len(mysearch) > 68:
-#         allPosts = Post.objects.none()
-#     else:
-#     # allPosts = Post.objects.all()
-#         allPostsTitle = Post.objects.filter(title__icontains=mysearch)
-#         allPostContent = Post.objects.filter(content__icontains=mysearch)
-#         allPosts = allPostsTitle.union(allPostContent)
-#     if allPosts.count == 0:
-#         messages.error(request, "No Search results found!")
-#     params = {'allPosts': allPosts, 'query': mysearch}
-#     return render(request, 'home/search.html', params)
+def search(request):
+    mysearch = request.GET['search']
+    if (len(mysearch) > 68 or len(mysearch) <1):
+        allPosts = BlogPost.objects.none()
+    else:
+    # allPosts = Post.objects.all()
+        allPostsTitle = BlogPost.objects.filter(title__icontains=mysearch)
+        allPostContent = BlogPost.objects.filter(content__icontains=mysearch)
+        allPosts = allPostsTitle.union(allPostContent)
+    if allPosts.count == 0:
+        messages.error(request, "No Search results found!")
+    params = {'allPosts': allPosts, 'query': mysearch}
+    return render(request, 'home/search.html', params)
 
 # Authentication APIs
 def handlesignup(request):
